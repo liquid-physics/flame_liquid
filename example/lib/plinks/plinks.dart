@@ -42,7 +42,7 @@ class PlinksGame extends FlameGame with LiquidPhysics, SecondaryTapDetector {
   void onSecondaryTapDown(TapDownInfo info) {
     super.onSecondaryTapDown(info);
     var (Shape sh, _) = space.pointQueryNearest(
-        mouse: info.eventPosition.game, radius: 0, filter: grabFilter);
+        mouse: info.eventPosition.global, radius: 0, filter: grabFilter);
     if (sh.isExist) {
       Body body = sh.getBody();
       if (body.getType() == BodyType.static) {

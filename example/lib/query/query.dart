@@ -34,8 +34,7 @@ class QueryGame extends FlameGame
         LiquidPhysics,
         SecondaryTapDetector,
         MouseMovementDetector,
-        DragCallbacks,
-        HasDraggablesBridge {
+        DragCallbacks {
   final world = World();
   late final CameraComponent cameraComponent;
 
@@ -160,7 +159,7 @@ class QueryGame extends FlameGame
   @override
   void onSecondaryTapDown(TapDownInfo info) {
     super.onSecondaryTapDown(info);
-    start = info.eventPosition.game;
+    start = info.eventPosition.global;
     lineDraw = false;
   }
 
@@ -173,7 +172,7 @@ class QueryGame extends FlameGame
   @override
   void onMouseMove(PointerHoverInfo info) {
     super.onMouseMove(info);
-    end = info.eventPosition.game;
+    end = info.eventPosition.global;
   }
 
   @override

@@ -66,14 +66,14 @@ class ShatterGame extends FlameGame with LiquidPhysics, SecondaryTapDetector {
     super.onSecondaryTapDown(info);
 
     var (Shape sh, PointQueryInfo infoQ) = space.pointQueryNearest(
-        mouse: info.eventPosition.game, radius: 0, filter: grabFilter);
+        mouse: info.eventPosition.global, radius: 0, filter: grabFilter);
     if (sh.isExist) {
       var boundingBox = infoQ.shape.getRect();
       var cellSize = max(boundingBox.right - boundingBox.left,
               boundingBox.top - boundingBox.bottom) /
           5;
       if (cellSize > 5) {
-        shatterShape(infoQ.shape, cellSize, info.eventPosition.game);
+        shatterShape(infoQ.shape, cellSize, info.eventPosition.global);
       }
     }
   }

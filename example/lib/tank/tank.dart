@@ -129,7 +129,7 @@ class TankGame extends FlameGame with LiquidPhysics, MouseMovementDetector {
   @override
   void onMouseMove(PointerHoverInfo info) {
     super.onMouseMove(info);
-    mouse = info.eventPosition.game;
+    mouse = info.eventPosition.global;
   }
 
   Vector2 unRotate(Vector2 v1, Vector2 v2) {
