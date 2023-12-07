@@ -6,7 +6,7 @@ This library acts as a bridge between Liquid (bindings Chipmunk2D physics) and t
 
 ```
 1. clone this package
-2. clone edited flame https://github.com/liquid-physics/flame
+2. clone edited flame https://github.com/liquid-physics/flame and select liquid branch
 3. clole liquid package https://github.com/liquid-physics/liquid
 put 1 to 3 in same folder
 4. open project of this example folder with VSCODE or ANDROID STUDIO
