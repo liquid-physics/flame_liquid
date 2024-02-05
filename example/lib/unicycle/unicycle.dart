@@ -139,7 +139,7 @@ class UnicycleGame extends FlameGame with LiquidPhysics, MouseMovementDetector {
   @override
   void onMouseMove(PointerHoverInfo info) {
     super.onMouseMove(info);
-    mouse = info.eventPosition.global;
+    mouse = info.eventPosition.widget;
   }
 
   @override

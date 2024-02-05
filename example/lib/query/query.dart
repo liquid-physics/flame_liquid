@@ -159,7 +159,7 @@ class QueryGame extends FlameGame
   @override
   void onSecondaryTapDown(TapDownInfo info) {
     super.onSecondaryTapDown(info);
-    start = info.eventPosition.global;
+    start = info.eventPosition.widget;
     lineDraw = false;
   }
 
@@ -172,7 +172,7 @@ class QueryGame extends FlameGame
   @override
   void onMouseMove(PointerHoverInfo info) {
     super.onMouseMove(info);
-    end = info.eventPosition.global;
+    end = info.eventPosition.widget;
   }
 
   @override
