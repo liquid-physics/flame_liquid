@@ -11,7 +11,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flame_liquid/flame_liquid.dart';
 import 'package:example/helper/common.dart';
-import 'package:liquid/src/liquid.dart' as d;
+import 'package:liquid2d/liquid2d.dart' as d;
 
 class Slice extends StatefulWidget {
   static const route = '/slice';
@@ -145,7 +145,8 @@ class SliceGame extends FlameGame with LiquidPhysics, DragCallbacks {
     var n = Vector2(-subs.y, subs.x)..normalize();
     var dist = start.dot(n);
 
-    await world.add(_BoxClip(orishape: shape as PolyShape, normal: n, dist: dist));
+    await world
+        .add(_BoxClip(orishape: shape as PolyShape, normal: n, dist: dist));
     await world.add(_BoxClip(
         orishape: shape as PolyShape, normal: n..negate(), dist: -dist));
 

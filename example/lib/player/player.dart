@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flame_liquid/flame_liquid.dart';
 import 'package:example/helper/common.dart';
 import 'package:flutter/services.dart';
-import 'package:liquid/src/liquid.dart' as d;
+import 'package:liquid2d/liquid2d.dart' as d;
 
 class Player extends StatefulWidget {
   static const route = '/player';

@@ -13,8 +13,7 @@ dependencies:
     path: ../flame/packages/flame
   flutter:
     sdk: flutter
-  liquid:
-    path: ../liquid
+  liquid2d: ^0.0.2
 
 dev_dependencies:
   flutter_lints: ^2.0.0

@@ -31,18 +31,3 @@ mixin LiquidPhysics on FlameGame {
     super.onRemove();
   }
 }
-
-  // void physics(Space space) {}
-
-  // @override
-  // @mustCallSuper
-  // void onMount() {
-  //   game
-  //   super.onMount();
-  //   final game = findGame()! as FlameGame;
-  //   if (game.findByKey(const LiquidPhysicsDispatcherKey()) == null) {
-  //     final lqPhysics = LiquidPhysicsDispatcher(game);
-  //     game.registerKey(const LiquidPhysicsDispatcherKey(), lqPhysics);
-  //     game.add(lqPhysics);
-  //   }
-  // }

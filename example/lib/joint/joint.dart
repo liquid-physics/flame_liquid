@@ -8,7 +8,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flame_liquid/flame_liquid.dart';
 import 'package:example/helper/common.dart';
-import 'package:liquid/src/liquid.dart' as d;
+import 'package:liquid2d/liquid2d.dart' as d;
 
 class Joint extends StatefulWidget {
   static const route = '/joint';

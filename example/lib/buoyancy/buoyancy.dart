@@ -10,7 +10,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flame_liquid/flame_liquid.dart';
 import 'package:example/helper/common.dart';
-import 'package:liquid/src/liquid.dart' as d;
+import 'package:liquid2d/liquid2d.dart' as d;
 
 class Buoyancy extends StatefulWidget {
   static const route = '/buoyancy';
@@ -63,23 +63,22 @@ class BuoyancyGame extends FlameGame with LiquidPhysics {
     world.addAll([
       _Segment(
           radius: 5,
-          posA: Vector2(rb.left, rb.bottom) ,
-          posB: Vector2(rb.left, rb.top) ,
+          posA: Vector2(rb.left, rb.bottom),
+          posB: Vector2(rb.left, rb.top),
           staticBody: staticBody),
       _Segment(
           radius: 5,
-          posA: Vector2(rb.right, rb.bottom) ,
-          posB: Vector2(rb.right, rb.top) ,
+          posA: Vector2(rb.right, rb.bottom),
+          posB: Vector2(rb.right, rb.top),
           staticBody: staticBody),
       _Segment(
           radius: 5,
-          posA: Vector2(rb.left, rb.bottom) ,
-          posB: Vector2(rb.right, rb.bottom) ,
+          posA: Vector2(rb.left, rb.bottom),
+          posB: Vector2(rb.right, rb.bottom),
           staticBody: staticBody),
-      _Water(
-          radius: 0, rect: rb, staticBody: staticBody),
-       _Box(Vector2(-50, 0).flipY() + mid, 200, 50),
-       _Box(Vector2(-200, 0).flipY() + mid, 40, 80)
+      _Water(radius: 0, rect: rb, staticBody: staticBody),
+      _Box(Vector2(-50, 0).flipY() + mid, 200, 50),
+      _Box(Vector2(-200, 0).flipY() + mid, 40, 80)
     ]);
 
     space.addCollisionHandler(aType: 1, bType: 0).preSolve((arbiter, space) {
