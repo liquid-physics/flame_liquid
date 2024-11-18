@@ -29,14 +29,12 @@ class _TumbleState extends State<Tumble> {
 }
 
 class TumbleGame extends FlameGame with LiquidPhysics {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
 
   @override
+  // ignore: unnecessary_overrides
   bool get renderDebug => super.renderDebug;
 
   @override
@@ -46,11 +44,8 @@ class TumbleGame extends FlameGame with LiquidPhysics {
         return space..setGravity(gravity: Vector2(0, 600));
       },
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cameraComponent, world]);
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     world.add(GrabberComponent());
     world.addAll(Boundaries.createBoundaries(size));
 

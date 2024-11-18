@@ -30,9 +30,6 @@ class _SpringiesState extends State<Springies> {
 }
 
 class SpringiesGame extends FlameGame with LiquidPhysics {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -42,11 +39,8 @@ class SpringiesGame extends FlameGame with LiquidPhysics {
     initializePhysics(
       initial: (space) => space,
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cameraComponent, world]);
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     world.add(GrabberComponent());
     world.add(LiquidDebugDraw(space));
     world.addAll(Boundaries.createBoundaries(size));

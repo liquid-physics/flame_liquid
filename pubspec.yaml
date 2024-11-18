@@ -9,8 +9,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  flame:
-    path: ../flame/packages/flame
+  flame: ^1.21.0
   flutter:
     sdk: flutter
   liquid2d: ^0.0.2

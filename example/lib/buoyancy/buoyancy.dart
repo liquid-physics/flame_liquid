@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui' as ui;
@@ -32,9 +34,6 @@ class _BuoyancyState extends State<Buoyancy> {
 }
 
 class BuoyancyGame extends FlameGame with LiquidPhysics {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -48,11 +47,9 @@ class BuoyancyGame extends FlameGame with LiquidPhysics {
         ..setSleepTimeThreshold(sleepTimeThreshold: .5)
         ..setCollisionSlop(collisionSlop: .5),
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
 
-    addAll([cameraComponent, world]);
     world.add(GrabberComponent());
     world.addAll(Boundaries.createBoundaries(size));
     world.add(LiquidDebugDraw(space));

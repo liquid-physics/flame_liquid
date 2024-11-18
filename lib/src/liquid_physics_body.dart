@@ -3,6 +3,19 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame_liquid/flame_liquid.dart';
 
+mixin LiquidFixedUpdate on PositionComponent {
+  @override
+  FutureOr<void> onLoad() async {
+    await super.onLoad();
+    var gm = findGame();
+    if (gm is LiquidPhysics) {
+      gm.setFixedUpdate.add(fixedUpdate);
+    }
+  }
+
+  void fixedUpdate(double timeStep);
+}
+
 mixin LiquidDynamicBody on LiquidPhysicsComponent {
   late Body _body;
   late Shape _shape;

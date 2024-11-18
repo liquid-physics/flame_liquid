@@ -29,9 +29,6 @@ class _ChainState extends State<Chain> {
 }
 
 class ChainGame extends FlameGame with LiquidPhysics {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -44,11 +41,8 @@ class ChainGame extends FlameGame with LiquidPhysics {
         ..setGravity(gravity: Vector2(0, 100))
         ..setSleepTimeThreshold(sleepTimeThreshold: .5),
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cameraComponent, world]);
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     world.add(GrabberComponent());
     world.add(LiquidDebugDraw(space));
     world.addAll(Boundaries.createBoundaries(size));

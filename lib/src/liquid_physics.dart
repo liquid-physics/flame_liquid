@@ -6,6 +6,9 @@ mixin LiquidPhysics on FlameGame {
   Space Function(Space space)? initial;
   bool renderDebug = false;
   static Vector2 defaultGravity = Vector2(0, 100.0);
+  double accuTime = 0;
+  double timeStep = 1.0 / 180.0;
+  List<void Function(double timeStep)?> setFixedUpdate = [];
 
   void initializePhysics({Space Function(Space space)? initial}) {
     if (initial == null) {
@@ -17,13 +20,25 @@ mixin LiquidPhysics on FlameGame {
     } else {
       space = initial.call(Space());
     }
+    setFixedUpdate.add(fixedUpdate);
   }
 
   @override
-  void fixedUpdate(double timeStep) {
-    super.fixedUpdate(timeStep);
-    space.step(dt: timeStep);
+  void update(double dt) {
+    super.update(dt);
+    accuTime += dt;
+    while (accuTime >= timeStep) {
+      if (setFixedUpdate.isNotEmpty) {
+        space.step(dt: timeStep);
+        for (var element in setFixedUpdate) {
+          element?.call(timeStep);
+        }
+      }
+      accuTime -= timeStep;
+    }
   }
+
+  void fixedUpdate(double timeStep) {}
 
   @override
   void onRemove() {

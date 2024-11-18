@@ -35,9 +35,6 @@ class QueryGame extends FlameGame
         SecondaryTapDetector,
         MouseMovementDetector,
         DragCallbacks {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -49,12 +46,10 @@ class QueryGame extends FlameGame
     initializePhysics(
       initial: (space) => space..setIternation(iterations: 5),
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     mid = Vector2(size.x / 2, size.y / 2);
     start = mid;
-    addAll([cameraComponent, world]);
     world.add(LiquidDebugDraw(space));
     world.addAll(Boundaries.createBoundaries(size));
 
@@ -87,9 +82,9 @@ class QueryGame extends FlameGame
   @override
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
-    mouse = event.localPosition;
+    mouse = event.localStartPosition;
     event.continuePropagation;
-    end = event.localPosition;
+    end = event.localStartPosition;
   }
 
   var start = Vector2.zero();
@@ -103,7 +98,6 @@ class QueryGame extends FlameGame
 
   @override
   void fixedUpdate(double timeStep) {
-    super.fixedUpdate(timeStep);
     var newPoint = Vector2(lerpDouble(mouseBody.p.x, mouse.x, 1) ?? 0,
         lerpDouble(mouseBody.p.y, mouse.y, 1) ?? 0);
     mouseBody.v = (newPoint - mouseBody.p) * 60;

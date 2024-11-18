@@ -32,9 +32,6 @@ class _CraneState extends State<Crane> {
 
 class CraneGame extends FlameGame
     with LiquidPhysics, MouseMovementDetector, SecondaryTapDetector {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -50,11 +47,9 @@ class CraneGame extends FlameGame
         ..setGravity(gravity: Vector2(0, 100))
         ..setDamping(damping: .8),
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     var mid = Vector2(size.x / 2, size.y / 2);
-    addAll([cameraComponent, world]);
     world.add(GrabberComponent());
     world.add(LiquidDebugDraw(space));
     world.addAll(Boundaries.createBoundaries(size));
@@ -121,7 +116,6 @@ class CraneGame extends FlameGame
 
   @override
   void fixedUpdate(double timeStep) {
-    super.fixedUpdate(timeStep);
     pv.setAnchorA(Vector2(mouse.x, 100).flipY());
     slide.setMax(max(-200 + mouse.y, 50));
   }

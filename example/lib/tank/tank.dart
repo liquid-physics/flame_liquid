@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:async';
 import 'dart:math';
 
@@ -31,9 +33,6 @@ class _TankState extends State<Tank> {
 }
 
 class TankGame extends FlameGame with LiquidPhysics, MouseMovementDetector {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -45,11 +44,8 @@ class TankGame extends FlameGame with LiquidPhysics, MouseMovementDetector {
         ..setIternation(iterations: 10)
         ..setSleepTimeThreshold(sleepTimeThreshold: .5),
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cameraComponent, world]);
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     world.add(LiquidDebugDraw(space));
     world.add(GrabberComponent());
     world.addAll(Boundaries.createBoundaries(size));
@@ -113,7 +109,6 @@ class TankGame extends FlameGame with LiquidPhysics, MouseMovementDetector {
   var mouse = Vector2.zero();
   @override
   void fixedUpdate(double timeStep) {
-    super.fixedUpdate(timeStep);
     var delta = mouse - bs.getBody().getPosition();
     var turn = toAngle(unRotate(bs.getBody().getRotation(), delta));
     tankBody.setAngle(bs.getBody().getAngle() - turn);

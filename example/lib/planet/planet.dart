@@ -30,9 +30,6 @@ class _PlanetState extends State<Planet> {
 }
 
 class PlanetGame extends FlameGame with LiquidPhysics {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -47,11 +44,10 @@ class PlanetGame extends FlameGame with LiquidPhysics {
         return space..setIternation(iterations: 20);
       },
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-    cameraComponent.viewfinder.zoom = .8;
-    addAll([cameraComponent, world]);
+
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
+    camera.viewfinder.zoom - .8;
     world.add(GrabberComponent());
     world.add(LiquidDebugDraw(space));
     world.addAll(Boundaries.createBoundaries(size));

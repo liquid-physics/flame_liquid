@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:async';
 import 'dart:math';
 
@@ -31,9 +33,6 @@ class _TheoJansenState extends State<TheoJansen> {
 }
 
 class TheoJansenGame extends FlameGame with LiquidPhysics, KeyboardEvents {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -48,11 +47,8 @@ class TheoJansenGame extends FlameGame with LiquidPhysics, KeyboardEvents {
         ..setIternation(iterations: 20)
         ..setGravity(gravity: Vector2(0, 500)),
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cameraComponent, world]);
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     world.add(GrabberComponent());
     world.addAll(Boundaries.createBoundaries(size));
     world.add(LiquidDebugDraw(space));
@@ -130,7 +126,6 @@ class TheoJansenGame extends FlameGame with LiquidPhysics, KeyboardEvents {
 
   @override
   void fixedUpdate(double timeStep) {
-    super.fixedUpdate(timeStep);
     double coef = (2.0 + y) / 3.0;
     double rate = x * 10.0 * coef;
     motor.setRate(rate);
@@ -139,9 +134,9 @@ class TheoJansenGame extends FlameGame with LiquidPhysics, KeyboardEvents {
 
   @override
   KeyEventResult onKeyEvent(
-      RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    final isKeyDown = event is RawKeyDownEvent;
-    final isKeyUp = event is RawKeyUpEvent;
+      KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    final isKeyDown = event is KeyDownEvent;
+    final isKeyUp = event is KeyUpEvent;
 
     if (isKeyDown) {
       if (keysPressed.contains(LogicalKeyboardKey.bracketLeft)) x = 1;

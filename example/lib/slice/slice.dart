@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, non_constant_identifier_names
 
 import 'dart:async';
 import 'dart:math';
@@ -33,9 +33,6 @@ class _SliceState extends State<Slice> {
 }
 
 class SliceGame extends FlameGame with LiquidPhysics, DragCallbacks {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -62,11 +59,8 @@ class SliceGame extends FlameGame with LiquidPhysics, DragCallbacks {
         ..setSleepTimeThreshold(sleepTimeThreshold: .5)
         ..setCollisionSlop(collisionSlop: .5),
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cameraComponent, world]);
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     world.addAll(Boundaries.createBoundaries(size));
     world.add(LiquidDebugDraw(space));
     var mid = Vector2(size.x / 2, size.y / 2);
@@ -104,8 +98,8 @@ class SliceGame extends FlameGame with LiquidPhysics, DragCallbacks {
   @override
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
-    end = event.localPosition;
-    mouse = event.localPosition;
+    end = event.localStartPosition;
+    mouse = event.localStartPosition;
     event.continuePropagation;
   }
 
@@ -148,7 +142,10 @@ class SliceGame extends FlameGame with LiquidPhysics, DragCallbacks {
     await world
         .add(_BoxClip(orishape: shape as PolyShape, normal: n, dist: dist));
     await world.add(_BoxClip(
-        orishape: shape as PolyShape, normal: n..negate(), dist: -dist));
+        // ignore: unnecessary_cast
+        orishape: shape as PolyShape,
+        normal: n..negate(),
+        dist: -dist));
 
     for (var element in world.children) {
       if (element is LiquidDynamicBody) {
@@ -161,7 +158,7 @@ class SliceGame extends FlameGame with LiquidPhysics, DragCallbacks {
 
   @override
   void fixedUpdate(double timeStep) {
-    super.fixedUpdate(timeStep);
+    //print('called slice');
     var newPoint = Vector2(lerpDouble(mouseBody.p.x, mouse.x, 1) ?? 0,
         lerpDouble(mouseBody.p.y, mouse.y, 1) ?? 0);
     mouseBody.v = (newPoint - mouseBody.p) * 60;

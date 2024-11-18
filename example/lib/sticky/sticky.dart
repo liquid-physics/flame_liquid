@@ -32,9 +32,6 @@ class _StickyState extends State<Sticky> {
 }
 
 class StickyGame extends FlameGame with LiquidPhysics {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -47,11 +44,8 @@ class StickyGame extends FlameGame with LiquidPhysics {
         ..setGravity(gravity: Vector2(0, 1000))
         ..setCollisionSlop(collisionSlop: 2),
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cameraComponent, world]);
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     world.add(GrabberComponent());
     world.addAll(Boundaries.createBoundaries(size));
     world.add(LiquidDebugDraw(space));

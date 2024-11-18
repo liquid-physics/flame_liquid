@@ -29,9 +29,6 @@ class _PyramidToppleState extends State<PyramidTopple> {
 }
 
 class PyramidToppleGame extends FlameGame with lq.LiquidPhysics {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -49,11 +46,8 @@ class PyramidToppleGame extends FlameGame with lq.LiquidPhysics {
           ..setCollisionSlop(collisionSlop: 0.5);
       },
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cameraComponent, world]);
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     world.add(GrabberComponent());
     world.addAll(Boundaries.createBoundaries(size));
 

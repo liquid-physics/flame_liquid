@@ -6,7 +6,11 @@ import 'package:flame/events.dart';
 import 'package:flame_liquid/flame_liquid.dart';
 
 class GrabberComponent extends PositionComponent
-    with LiquidPhysicsComponent, LiquidKinematicBody, DragCallbacks {
+    with
+        LiquidPhysicsComponent,
+        LiquidKinematicBody,
+        DragCallbacks,
+        LiquidFixedUpdate {
   Vector2 mouse = Vector2.zero();
   PivotJoint? mouseJoint;
   Body mouseBody = KinematicBody();
@@ -29,13 +33,12 @@ class GrabberComponent extends PositionComponent
   @override
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
-    mouse = event.localPosition;
+    mouse = event.localStartPosition;
     event.continuePropagation;
   }
 
   @override
   void fixedUpdate(double timeStep) {
-    super.fixedUpdate(timeStep);
     var newPoint = Vector2(lerpDouble(mouseBody.p.x, mouse.x, 1) ?? 0,
         lerpDouble(mouseBody.p.y, mouse.y, 1) ?? 0);
     mouseBody.v = (newPoint - mouseBody.p) * 60;

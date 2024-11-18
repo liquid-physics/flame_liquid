@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, non_constant_identifier_names
 
 import 'dart:async';
 import 'dart:math';
@@ -33,9 +33,6 @@ class _ShatterState extends State<Shatter> {
 }
 
 class ShatterGame extends FlameGame with LiquidPhysics, SecondaryTapDetector {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -49,11 +46,8 @@ class ShatterGame extends FlameGame with LiquidPhysics, SecondaryTapDetector {
         ..setSleepTimeThreshold(sleepTimeThreshold: .5)
         ..setCollisionSlop(collisionSlop: .5),
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cameraComponent, world]);
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     world.add(GrabberComponent());
     world.addAll(Boundaries.createBoundaries(size));
     world.add(LiquidDebugDraw(space));

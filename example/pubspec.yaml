@@ -7,13 +7,13 @@ environment:
   sdk: '>=3.1.0 <4.0.0'
 
 dependencies:
-  flame: 
-    path: ../../flame/packages/flame
+  flame: ^1.21.0
   flame_liquid:
     path: ../
   flutter:
     sdk: flutter
   liquid2d: ^0.0.2
+  vector_math: ^2.1.4
 
 dev_dependencies:
   flutter_lints: ^2.0.0

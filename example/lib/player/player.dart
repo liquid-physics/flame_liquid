@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, non_constant_identifier_names
 
 import 'dart:async';
 import 'dart:math';
@@ -35,9 +35,6 @@ class _PlayerState extends State<Player> {
 }
 
 class PlayerGame extends FlameGame with LiquidPhysics, KeyboardEvents {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -50,11 +47,8 @@ class PlayerGame extends FlameGame with LiquidPhysics, KeyboardEvents {
           ..setGravity(
             gravity: Vector2(0, 2000),
           ));
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cameraComponent, world]);
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     world.add(GrabberComponent());
     world.addAll(Boundaries.createBoundaries(size));
     world.add(LiquidDebugDraw(space));
@@ -73,9 +67,9 @@ class PlayerGame extends FlameGame with LiquidPhysics, KeyboardEvents {
   int keyx = 0, keyy = 0;
   @override
   KeyEventResult onKeyEvent(
-      RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    final isKeyDown = event is RawKeyDownEvent;
-    final isKeyUp = event is RawKeyUpEvent;
+      KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    final isKeyDown = event is KeyDownEvent;
+    final isKeyUp = event is KeyUpEvent;
 
     if (isKeyDown) {
       if (keysPressed.contains(LogicalKeyboardKey.arrowUp)) keyy = -1;
@@ -111,7 +105,11 @@ class _Box extends PositionComponent
 }
 
 class _Player extends PositionComponent
-    with LiquidPhysicsComponent, LiquidDynamicBody, HasGameRef<PlayerGame> {
+    with
+        LiquidPhysicsComponent,
+        LiquidDynamicBody,
+        HasGameRef<PlayerGame>,
+        LiquidFixedUpdate {
   final Vector2 _position;
   final Vector2 _size;
   _Player(this._position, this._size) : super(position: _position, size: _size);
@@ -135,7 +133,6 @@ class _Player extends PositionComponent
   var remainingBoost = 0.0;
   @override
   void fixedUpdate(double timeStep) {
-    super.fixedUpdate(timeStep);
     jumpStated = (game.keyy < 0.0);
 
     // If the jump key was just pressed this frame, jump!
@@ -171,7 +168,7 @@ class _Player extends PositionComponent
     // // Do a normal-ish update
     bool boost = (jumpState && remainingBoost < 0.0);
     var g = (boost ? Vector2.zero() : gravity);
-    print('${remainingBoost} $boost');
+    //print('${remainingBoost} $boost');
     body.updateVelocity(gravity: g, damping: damping, dt: dt);
 
     // Target horizontal speed for air/ground control

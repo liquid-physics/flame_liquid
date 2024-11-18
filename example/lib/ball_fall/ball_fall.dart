@@ -32,7 +32,6 @@ class _BallFallState extends State<BallFall> {
 }
 
 class BallFallGame extends FlameGame with LiquidPhysics {
-  final world = World();
   late final CameraComponent cameraComponent;
 
   final _random = Random();
@@ -42,11 +41,9 @@ class BallFallGame extends FlameGame with LiquidPhysics {
   @override
   Future<void> onLoad() async {
     initializePhysics();
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
 
-    addAll([cameraComponent, world]);
     world.add(GrabberComponent());
     world.addAll(Boundaries.createBoundaries(size));
 
@@ -61,6 +58,9 @@ class BallFallGame extends FlameGame with LiquidPhysics {
       }
     }
   }
+
+  @override
+  void fixedUpdate(double timeStep) {}
 }
 
 class Dot extends PositionComponent {

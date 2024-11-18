@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flame_liquid/flame_liquid.dart';
 import 'package:example/helper/common.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/services/keyboard_key.g.dart';
 
 class Pump extends StatefulWidget {
   static const route = '/pump';
@@ -32,9 +31,6 @@ class _PumpState extends State<Pump> {
 }
 
 class PumpGame extends FlameGame with LiquidPhysics, KeyboardEvents {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -48,11 +44,8 @@ class PumpGame extends FlameGame with LiquidPhysics, KeyboardEvents {
     initializePhysics(
       initial: (space) => space..setGravity(gravity: Vector2(0, 600)),
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cameraComponent, world]);
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     world.add(LiquidDebugDraw(space));
     world.add(GrabberComponent());
     world.addAll(Boundaries.createBoundaries(size));
@@ -161,7 +154,6 @@ class PumpGame extends FlameGame with LiquidPhysics, KeyboardEvents {
 
   @override
   void fixedUpdate(double timeStep) {
-    super.fixedUpdate(timeStep);
     double coef = (2.0 + y) / 3.0;
     double rate = x * 30.0 * coef;
     motor.setRate(rate);
@@ -180,9 +172,9 @@ class PumpGame extends FlameGame with LiquidPhysics, KeyboardEvents {
 
   @override
   KeyEventResult onKeyEvent(
-      RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    final isKeyDown = event is RawKeyDownEvent;
-    final isKeyUp = event is RawKeyUpEvent;
+      KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    final isKeyDown = event is KeyDownEvent;
+    final isKeyUp = event is KeyUpEvent;
 
     if (isKeyDown) {
       if (keysPressed.contains(LogicalKeyboardKey.bracketLeft)) x = -1;

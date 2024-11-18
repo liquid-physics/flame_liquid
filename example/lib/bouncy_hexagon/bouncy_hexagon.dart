@@ -31,7 +31,6 @@ class _BouncyHexagonState extends State<BouncyHexagon> {
 }
 
 class BouncyHexagonGame extends FlameGame with LiquidPhysics {
-  final world = World();
   late final CameraComponent cameraComponent;
 
   final _random = Random();
@@ -45,11 +44,9 @@ class BouncyHexagonGame extends FlameGame with LiquidPhysics {
         return space..setIternation(iterations: 10);
       },
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
 
-    addAll([cameraComponent, world]);
     world.add(GrabberComponent());
     world.addAll(Boundaries.createBoundaries(size));
 

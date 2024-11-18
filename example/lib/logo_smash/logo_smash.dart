@@ -30,9 +30,7 @@ class _LogoSmashState extends State<LogoSmash> {
 }
 
 class LogoSmashGame extends FlameGame with LiquidPhysics {
-  final world = World();
   final _random = Random();
-  late final CameraComponent cameraComponent;
   int imageWidth = 188;
   int imageHeight = 35;
   int imageRowLength = 24;
@@ -46,10 +44,8 @@ class LogoSmashGame extends FlameGame with LiquidPhysics {
         ..useSpatialHash(dim: 2, count: 10000),
     );
 
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-    addAll([cameraComponent, world]);
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
 
     for (var x = 0; x < imageWidth; x++) {
       for (var y = 0; y < imageHeight; y++) {

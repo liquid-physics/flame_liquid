@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, library_private_types_in_public_api
 
 import 'dart:async';
 import 'dart:math';
@@ -32,9 +32,6 @@ class _ConvexState extends State<Convex> {
 
 class ConvexGame extends FlameGame
     with LiquidPhysics, SecondaryTapDetector, DragCallbacks {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -51,11 +48,8 @@ class ConvexGame extends FlameGame
         ..setSleepTimeThreshold(sleepTimeThreshold: .5)
         ..setCollisionSlop(collisionSlop: .5),
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cameraComponent, world]);
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     //world.add(GrabberComponent());
     world.addAll(Boundaries.createBoundaries(size));
     world.add(LiquidDebugDraw(space));
@@ -74,7 +68,7 @@ class ConvexGame extends FlameGame
   @override
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
-    mouse = event.localPosition;
+    mouse = event.localStartPosition;
   }
 
   @override
@@ -85,7 +79,6 @@ class ConvexGame extends FlameGame
 
   @override
   void fixedUpdate(double timeStep) {
-    super.fixedUpdate(timeStep);
     var tolerance = 2.0;
     var shape = box.shapeT as PolyShape;
     if (isRightClick && shape.pointQuery(point: mouse).$1 > tolerance) {
@@ -107,7 +100,7 @@ class ConvexGame extends FlameGame
       body.setMass(mass);
       body.setMoment(Moment.forPoly(mass, verts, neg, 0));
       body.setPosition(pos: body.localToWorld(centroid));
-      print('$mouse $isRightClick $mass $verts');
+      //print('$mouse $isRightClick $mass $verts');
 
       // Use the setter function from chipmunk_unsafe.h.
       // You could also remove and recreate the shape if you wanted.

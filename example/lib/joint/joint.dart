@@ -30,9 +30,6 @@ class _JointState extends State<Joint> {
 }
 
 class JointGame extends FlameGame with LiquidPhysics {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -47,11 +44,8 @@ class JointGame extends FlameGame with LiquidPhysics {
           ..setSleepTimeThreshold(sleepTimeThreshold: .5);
       },
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cameraComponent, world]);
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     world.add(GrabberComponent());
     world.add(LiquidDebugDraw(space));
     world.addAll(Boundaries.createBoundaries(size));
@@ -370,6 +364,9 @@ class JointGame extends FlameGame with LiquidPhysics {
             stiffness: 20,
             damping: 10));
   }
+
+  @override
+  void fixedUpdate(double timeStep) {}
 }
 
 class _Circle extends PositionComponent

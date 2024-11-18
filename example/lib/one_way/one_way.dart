@@ -29,9 +29,6 @@ class _OneWayState extends State<OneWay> {
 }
 
 class OneWayGame extends FlameGame with LiquidPhysics {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -45,11 +42,8 @@ class OneWayGame extends FlameGame with LiquidPhysics {
           ..setGravity(gravity: Vector2(0, 100));
       },
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cameraComponent, world]);
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     world.add(GrabberComponent());
     world.add(LiquidDebugDraw(space));
     world.addAll(Boundaries.createBoundaries(size));
@@ -59,8 +53,9 @@ class OneWayGame extends FlameGame with LiquidPhysics {
 
     space.addWildcardHandler(type: 1)
       ..preSolve((arbiter, space) {
-        if (arbiter.getNormal().dot(Vector2(0, -1)) < 0)
+        if (arbiter.getNormal().dot(Vector2(0, -1)) < 0) {
           return arbiter.ignore();
+        }
         return true;
       })
       ..postSolve((arbiter, space) {});

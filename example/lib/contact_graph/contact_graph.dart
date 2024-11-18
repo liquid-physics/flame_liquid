@@ -30,9 +30,6 @@ class _ContactGraphState extends State<ContactGraph> {
 }
 
 class ContactGraphGame extends FlameGame with LiquidPhysics {
-  final world = World();
-  late final CameraComponent cameraComponent;
-
   final _random = Random();
   double next(double min, double max) =>
       min + _random.nextDouble() * (max - min);
@@ -55,11 +52,8 @@ class ContactGraphGame extends FlameGame with LiquidPhysics {
         ..setCollisionSlop(collisionSlop: .5)
         ..setSleepTimeThreshold(sleepTimeThreshold: 1),
     );
-    cameraComponent = CameraComponent(world: world)
-      ..viewport.add(FpsTextComponent())
-      ..viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cameraComponent, world]);
+    camera.viewport.add(FpsTextComponent());
+    camera.viewfinder.anchor = Anchor.topLeft;
     var mid = Vector2(size.x / 2, size.y / 2);
     world.add(LiquidDebugDraw(space));
     world.add(GrabberComponent());
@@ -78,7 +72,6 @@ class ContactGraphGame extends FlameGame with LiquidPhysics {
 
   @override
   void fixedUpdate(double timeStep) {
-    super.fixedUpdate(timeStep);
     impulseSum = Vector2.zero();
     scaleBody.eachArbiter(scale);
 
@@ -153,7 +146,7 @@ class _Segment extends PositionComponent
 }
 
 class _Box extends PositionComponent
-    with LiquidPhysicsComponent, LiquidDynamicBody {
+    with LiquidPhysicsComponent, LiquidDynamicBody, LiquidFixedUpdate {
   final double wd;
   final double he;
   final Vector2 pos;
@@ -172,6 +165,9 @@ class _Box extends PositionComponent
 
     return (body, shape);
   }
+
+  @override
+  void fixedUpdate(double timeStep) {}
 }
 
 class _Circle extends PositionComponent
