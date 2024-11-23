@@ -27,6 +27,7 @@ mixin LiquidDynamicBody on LiquidPhysicsComponent {
     var gm = findGame();
     if (gm is LiquidPhysics) {
       space = gm.space;
+      gm.setFixedUpdate.add(_fx);
     }
 
     var (bd, sh) = create();
@@ -39,9 +40,7 @@ mixin LiquidDynamicBody on LiquidPhysicsComponent {
 
   (Body, Shape) create();
 
-  @override
-  void update(double dt) {
-    super.update(dt);
+  void _fx(double timeStep) {
     if (_body.isExist) {
       transform.position = _body.getPosition();
       transform.angle = _body.getAngle();
