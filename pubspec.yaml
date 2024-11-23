@@ -12,7 +12,7 @@ dependencies:
   flame: ^1.21.0
   flutter:
     sdk: flutter
-  liquid2d: ^0.0.2
+  liquid2d: ^0.0.3
 
 dev_dependencies:
   flutter_lints: ^2.0.0
