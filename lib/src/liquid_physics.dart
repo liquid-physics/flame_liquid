@@ -24,8 +24,8 @@ mixin LiquidPhysics on FlameGame {
   }
 
   @override
-  void update(double dt) {
-    super.update(dt);
+  void updateTree(double dt) {
+    super.updateTree(dt);
     accuTime += dt;
     while (accuTime >= timeStep) {
       if (setFixedUpdate.isNotEmpty) {
